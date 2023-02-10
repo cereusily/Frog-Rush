@@ -6,7 +6,7 @@ class Frog {
   float xSpeed; // Velocity variables
   float ySpeed;
   
-  float scaleFactor = 0.25;  // Scale variable
+  float scaleFactor = 0.3;  // Scale variable
   float theta;
   
   float starOneX;  // Star coordinates

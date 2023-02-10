@@ -1,10 +1,23 @@
+/*
+FROG RUSH
+
+Catch as many frogs as you can within 60 seconds!
+You earn more points for each frog you catch without missing and
+if you manage to catch 10 frogs in a row, you'll enter FROG RUSH
+and you'll earn even more points per frog!
+
+Timothy Kung
+301420651
+*/
+
+
 color F_FROG_GREEN = color(92, 166, 73);
 color F_BELLY_GREEN = color(154, 198, 143);
 color F_BACKGROUND = color(20, 70, 185);
 int NUM_FROGS = 6;
 int MAX_FROGS = 10;
 
-int frogWidth = 120;
+int frogWidth = 70;
 
 int startTime;
 int respawnStartTime;
@@ -87,10 +100,8 @@ void draw() {
     Score.drawScore();
     drawTime();
     
-    // Draws frog rush
-    if (Score.comboCount % Score.FROG_RUSH_COMBO == 0 && Score.comboCount != 0) {
-       Score.drawFrogRush();
-    }
+    // Check for frog rush
+    Score.checkFrogRush();
     
     // Draws the frogs and moves them
     for (int i = 0; i < frogsList.size(); i++) {
@@ -130,10 +141,20 @@ void countTime() {
 }
 
 void drawTime() {
-  // Draws the time
-  String timeText = "Time left: " + str(timeLimit/1000 - round(passedTime/1000));
-  textSize(45);
-  text(timeText, 25, 120);
+  // Draws time
+  if (timeLimit/1000 - round(passedTime/1000) < 6) {  // -> Draws countdown
+    textSize(96);
+    textAlign(CENTER);
+    text(str(timeLimit/1000 - round(passedTime/1000)), 400, 400);
+    textAlign(LEFT);
+    textSize(45);
+  }
+  else {
+    // Draws the time
+    String timeText = "Time left: " + str(timeLimit/1000 - round(passedTime/1000));
+    textSize(45);
+    text(timeText, 25, 120);
+  }
 }
 
 void respawnFrog() {
