@@ -31,7 +31,7 @@ boolean clickOnce;
 ArrayList<Frog> frogsList = new ArrayList<Frog>();
 
 Score Score = new Score(1, 1.06);
-
+Player user = new Player(mouseX, mouseY);
 
 void setup() {
   // Sets up windows and initiates frog
@@ -78,27 +78,24 @@ void mouseReleased() {
     Score.checkCombo();
   }
   clickOnce = false;
+  user.rotateFactor = 0;
 }
 
 void mousePressed() {
   // Checks if mouse clicked once
   clickOnce = true;
+  
+  // Rotates user hammer
+  user.rotateFactor = -PI/3;
 }
 
 void draw() {
-  // <--- DEBUG --->
-  
-  // <--- END DEBUG --->
-  
- // Game loop
+
+  // Game loop
   if (isActive) {
     
     // Draws the background
-    background(F_BACKGROUND);
-     
-    // Draws score & time 
-    Score.drawScore();
-    drawTime();
+    drawScene();
     
     // Check for frog rush
     Score.checkFrogRush();
@@ -110,13 +107,21 @@ void draw() {
       
       // Updates if user clicks & checks for clicked frog
       if (clickOnce && (mouseButton == LEFT) && Score.canClick) {
-        if (currFrog.isAlive() && dist(mouseX, mouseY, currFrog.x, currFrog.y) < frogWidth / 2) {
+        if (currFrog.isAlive() && currFrog.hitFrog(mouseX, mouseY)) {
           Score.frogCount++;
           Score.caughtFrog = true;
           currFrog.kill();
         }
       } 
     }
+    // Draws cursor
+    user.update(mouseX, mouseY);
+    user.drawCursor();
+    
+    // Draws score & time 
+    Score.drawScore();
+    drawTime();
+    
     // Adds new frogs when threshold < 10
     respawnFrog();
     
@@ -125,9 +130,9 @@ void draw() {
     
     // Resets click once
     clickOnce = false;
+    
   }
 }
-
 
 void countTime() {
   // Tracks time passed
@@ -143,18 +148,63 @@ void countTime() {
 void drawTime() {
   // Draws time
   if (timeLimit/1000 - round(passedTime/1000) < 6) {  // -> Draws countdown
-    textSize(96);
     textAlign(CENTER);
-    text(str(timeLimit/1000 - round(passedTime/1000)), 400, 400);
+    
+    // Shadow text
+    textSize(96);
+    fill(2, 32, 48);
+    text(str(timeLimit/1000 - round(passedTime/1000)), 405, 420);
+    
+    // Main text
+    textSize(96);
+    fill(255);
+    text(str(timeLimit/1000 - round(passedTime/1000)), 400, 420);
+    
+    
     textAlign(LEFT);
     textSize(45);
   }
   else {
     // Draws the time
     String timeText = "Time left: " + str(timeLimit/1000 - round(passedTime/1000));
-    textSize(45);
-    text(timeText, 25, 120);
+    
+    // Main shadow text
+    fill(2, 48, 32);
+    textSize(47);
+    text(timeText, 480, 80);
+    
+    // Main score text
+    fill(255);
+    textSize(47);
+    text(timeText, 475, 80);
+    
   }
+}
+
+void drawScene() {
+  // Draws the background
+  background(F_BACKGROUND);
+  
+  // Land outline
+  noFill();
+  rectMode(CENTER);
+  ellipseMode(CENTER);
+  
+  strokeWeight(128);
+  stroke(2, 48, 32);
+  ellipse(400, 400, 1000, 1000);
+  
+  strokeWeight(64);
+  stroke(57,133,74);
+  ellipse(400, 400, 850, 850);
+  
+  stroke(97,190,144);
+  ellipse(400, 400, 750, 750);
+  
+  strokeWeight(32);
+  stroke(1, 87, 155);
+  ellipse(400, 400, 670, 670);
+  
 }
 
 void respawnFrog() {

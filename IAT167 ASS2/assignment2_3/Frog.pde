@@ -8,12 +8,14 @@ class Frog {
   
   float scaleFactor = 0.3;  // Scale variable
   float theta;
+  float fWidth = 70;
   
   float starOneX;  // Star coordinates
   float starTwoX;
   float starSpeedX;
   
   int deathTimer = -1;  // Checks time alive
+  
   
   // Constructor
   Frog(float posX, float posY, int xSpeed, int ySpeed) {
@@ -58,10 +60,14 @@ class Frog {
   
   void checkCollide() {
     // Handles collisions
-    if (x < -frogWidth/2) x = width + frogWidth/2;
-    if (x > width + frogWidth/2) x = -frogWidth/2;
-    if (y < -frogWidth/2) y = height + frogWidth/2;
-    if (y > height + frogWidth/2) y = -frogWidth/2;
+    if (x < -fWidth/2) x = width + fWidth/2;
+    if (x > width + fWidth/2) x = -fWidth/2;
+    if (y < -fWidth/2) y = height + fWidth/2;
+    if (y > height + fWidth/2) y = -fWidth/2;
+  }
+  
+  boolean hitFrog(float x, float y) {  // Returns if mouse is on frog
+    return (dist(x, y, this.x, this.y) < fWidth / 2);
   }
   
   boolean isAlive() {
@@ -130,8 +136,8 @@ class Frog {
     
     // The pupil
     fill(0);
-    rect(-75, -40, 30, 15, 30); // left pupil
-    rect(45, -40, 30, 15, 30); // right pupil
+    rect(-75 + 15, -40, 30, 15, 30); // left pupil
+    rect(45 + 15, -40, 30, 15, 30); // right pupil
     fill(F_FROG_GREEN);
   
     // Nose
