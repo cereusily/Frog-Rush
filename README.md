@@ -1,4 +1,4 @@
-# Frog-Rush
+# Frog Rush 🐸
 Frog Rush is a game coded in the Processing language for SFU's IAT 167 course designed and made by me.
 
 ## How to play
