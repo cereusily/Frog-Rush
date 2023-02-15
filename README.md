@@ -6,3 +6,6 @@ Catch as many frogs as you can within 60 seconds!
 You earn more points for each frog you catch without missing and
 if you manage to catch 10 frogs in a row, you'll enter FROG RUSH
 and you'll earn even more points per frog!
+
+## Gameplay
+![Frog Rush Demo](https://raw.githubusercontent.com/cereusily/Frog-Rush/main/Demos/demoshot.png)
